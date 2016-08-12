@@ -6,13 +6,26 @@ MAINTAINER dark.turtle@protonmail.com
 # Debian image, we use apt-get to install those.
 RUN apt-get update && apt-get install -y \ 
   build-essential \ 
-  nodejs
+  nodejs \ 
+  npm
+
+# Compatibility fix for node on debian-based like Ubuntu.
+RUN ln -s /usr/bin/nodejs /usr/bin/node
+
+# Install nvm.
+RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.24.1/install.sh | sh
+
+# Invoke nvm to install node.
+RUN cp -f ~/.nvm/nvm.sh ~/.nvm/nvm-tmp.sh; \ 
+  echo "nvm install node; nvm alias default node; nvm use default; node -v" >> ~/.nvm/nvm-tmp.sh; \ 
+  sh ~/.nvm/nvm-tmp.sh; \ 
+  rm ~/.nvm/nvm-tmp.sh;
 
 # Configure the main working directory. This is the base 
 # directory used in any further RUN, COPY, and ENTRYPOINT 
 # commands.
-RUN mkdir -p /code/my_app
-WORKDIR /code/my_app
+RUN mkdir -p /code/vmware_ma
+WORKDIR /code/vmware_ma
 
 # Copy the Gemfile as well as the Gemfile.lock and install 
 # the RubyGems. This is a separate step so the dependencies 
@@ -20,7 +33,6 @@ WORKDIR /code/my_app
 # are made.
 COPY Gemfile Gemfile.lock ./ 
 RUN gem install bundler && bundle install --jobs 20 --retry 5
-
 # Copy the main application.
 COPY . ./
 
