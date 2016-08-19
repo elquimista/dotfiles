@@ -7,6 +7,8 @@ app:
     - 80:3000
   links:
     - postgres
+  stdin_open: true
+  tty: true
 
 postgres:
   image: postgres:9.5.3

@@ -32,3 +32,12 @@ node_modules
 
 # Ignore macOS .DS_Store file
 .DS_Store
+
+# Ignore uploaded files
+/public/system/*
+
+# Ignore locally-installed gems
+/vendor/bundle/*
+
+# Ignore vim backup files
+*~
