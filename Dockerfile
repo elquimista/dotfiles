@@ -1,5 +1,5 @@
-FROM ruby:2.3 
-MAINTAINER dark.turtle@protonmail.com
+FROM ruby:2.3.1 
+MAINTAINER Swart Skilpad <dark.turtle@protonmail.com>
 
 # Install apt based dependencies required to run Rails as 
 # well as RubyGems. As the Ruby image itself is based on a 
@@ -24,23 +24,20 @@ RUN cp -f ~/.nvm/nvm.sh ~/.nvm/nvm-tmp.sh; \
 # Configure the main working directory. This is the base 
 # directory used in any further RUN, COPY, and ENTRYPOINT 
 # commands.
-RUN mkdir -p /code/vmware_ma
-WORKDIR /code/vmware_ma
+ENV APP_HOME /code/web
+RUN mkdir -p $APP_HOME
+WORKDIR $APP_HOME
 
 # Copy the Gemfile as well as the Gemfile.lock and install 
 # the RubyGems. This is a separate step so the dependencies 
 # will be cached unless changes to one of those two files 
 # are made.
-COPY Gemfile Gemfile.lock ./ 
-RUN gem install bundler && bundle install --jobs 20 --retry 5
+ADD Gemfile* $APP_HOME/ 
+
+ENV BUNDLE_GEMFILE=$APP_HOME/Gemfile \
+  BUNDLE_JOBS=5 \
+  BUNDLE_PATH=/bundle
+
+RUN bundle install
 # Copy the main application.
-COPY . ./
-
-# Expose port 3000 to the Docker host, so we can access it 
-# from the outside.
-EXPOSE 3000
-
-# The main command to run when the container starts. Also 
-# tell the Rails dev server to bind to all interfaces by 
-# default.
-CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+ADD . $APP_HOME
