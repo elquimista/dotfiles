@@ -1,0 +1,9 @@
+[http]
+  proxy = 
+[color]
+  ui = true
+[user]
+  name = darkturtle
+  email = darXXXXX@YYY.com
+[push]
+  default = simple
