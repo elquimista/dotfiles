@@ -4,4 +4,6 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 set softtabstop=2
-set backupdir=~/vimtemp,.
+set backupdir=~/.vimtemp
+set number
+syntax on
