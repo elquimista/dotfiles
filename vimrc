@@ -1,4 +1,5 @@
 source $VIMRUNTIME/vimrc_example.vim
+syntax on
 set mouse=
 set tabstop=2
 set shiftwidth=2
@@ -6,4 +7,4 @@ set expandtab
 set softtabstop=2
 set backupdir=~/.vimtemp
 set number
-syntax on
+set noundofile
