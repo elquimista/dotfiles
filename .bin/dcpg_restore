@@ -1,0 +1,29 @@
+#!/bin/bash
+
+echo -n 'Container Name? (* Required) '
+read container_name
+if [ -z "$container_name" ]
+then
+  echo 'Container Name must not be empty!'
+  exit 1
+fi
+
+echo -n "Dump File Path? (* Required) "
+read dump_file_path
+if [ -z "$dump_file_path" ]
+then
+  echo 'Dump File Path must not be empty!'
+  exit 1
+fi
+
+echo -n 'Database Name? (* Required) '
+read db_name
+if [ -z "$db_name" ]
+then
+  echo 'Database Name must not be empty!'
+  exit 1
+fi
+
+echo ''
+
+docker exec -i $container_name psql -U postgres $db_name < "${dump_file_path}"

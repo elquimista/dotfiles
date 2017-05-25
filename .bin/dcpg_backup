@@ -1,0 +1,41 @@
+#!/bin/bash
+
+echo -n 'Container Name? (* Required) '
+read container_name
+if [ -z "$container_name" ]
+then
+  echo 'Container Name must not be empty!'
+  exit 1
+fi
+
+echo -n 'Database Name? (* Required) '
+read db_name
+if [ -z "$db_name" ]
+then
+  echo 'Database Name must not be empty!'
+  exit 1
+fi
+
+echo -n "Path to store dump file? (`pwd`) "
+read dump_file_folder
+if [ -z "$dump_file_folder" ]
+then
+  dump_file_folder=`pwd`
+fi
+
+echo ''
+dump_file="dump_${db_name}_`date +%Y-%m-%d-%H-%M-%S`.sql"
+
+if [ ! -d "$dump_file_folder" ]; then
+  mkdir $dump_file_folder
+fi
+
+dump_file_path="${dump_file_folder}/${dump_file}"
+
+if docker exec -t $container_name pg_dump -c -U postgres $db_name > "${dump_file_path}"; then
+  echo "Created database dump file: ${dump_file_path}"
+else
+  cat $dump_file_path
+  rm $dump_file_path
+  exit 2
+fi
