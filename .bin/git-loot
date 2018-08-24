@@ -1,0 +1,56 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+
+options = {}
+option_parser = OptionParser.new do |opts|
+  opts.banner = 'Usage: git-loot [options] COMMIT_SHA'
+  opts.separator ''
+  opts.on('--from-dir FROM_DIR') { |from_dir| options[:from_dir] = from_dir }
+end
+option_parser.parse!
+
+raise OptionParser::MissingArgument.new('--from-dir') unless options[:from_dir]
+raise 'You need to specify a commit SHA' if ARGV.empty?
+
+git_from_dir = "git --git-dir=#{options[:from_dir]}/.git --work-tree=#{options[:from_dir]}"
+
+sha_pool = `#{git_from_dir} rev-list HEAD`.split("\n")
+sha_array = []
+ARGV.each do |sha|
+  if sha =~ /^(?<from>[0-9a-f]+)\.\.(?<to>[0-9a-f]+)$/i
+    from_index = sha_pool.find_index { |e| e.start_with?($~[:from]) }
+    to_index = sha_pool.find_index { |e| e.start_with?($~[:to]) }
+    raise 'Commit SHA range must be chronologically in reverse order' if from_index < to_index
+    sha_array.concat sha_pool[to_index..from_index].reverse
+  else
+    sha_array << sha
+  end
+end
+
+sha_array.each do |sha|
+  committer_date = `#{git_from_dir} show -s --format="%ci" #{sha}`.strip
+  author = "#{`git config user.name`.strip} <#{`git config user.email`.strip}>"
+  `#{git_from_dir} format-patch -k -1 --stdout #{sha} | \\
+    git am -3 -k --ignore-whitespace && \\
+    GIT_COMMITTER_DATE="#{committer_date}" \\
+    git commit --amend --no-edit --author="#{author}"`
+
+  unless $?.exitstatus == 0
+    `git am --abort` 
+    puts "#{sha}: using fallback method.."
+    puts ''
+    branch = `#{git_from_dir} name-rev --name-only HEAD`
+    `#{git_from_dir} checkout #{sha}`
+    `#{git_from_dir} diff --name-only HEAD^`.split("\n").each do |file|
+      `cp #{options[:from_dir]}/#{file} ./#{file}`
+    end
+    author_date = `#{git_from_dir} show -s --format="%ai"`.strip
+    message = `#{git_from_dir} show -s --format="%B"`.strip
+    `#{git_from_dir} checkout #{branch}`
+    `git add --all`
+    `GIT_COMMITTER_DATE="#{committer_date}" \\
+      GIT_AUTHOR_DATE="#{author_date}" \\
+      git commit -m "#{message}"`
+  end
+end
