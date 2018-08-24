@@ -1,15 +1,20 @@
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+
 # Path to your oh-my-zsh installation.
 export ZSH=/Users/($whoami)/.oh-my-zsh
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-# ZSH_THEME="robbyrussell"
-# ZSH_THEME="lambda-mod"
-# ZSH_THEME="geometry"
-ZSH_THEME="pure3"
-DEFAULT_USER=`whoami`
+# Set name of the theme to load. Optionally, if you set this to "random"
+# it'll load a random theme each time that oh-my-zsh is loaded.
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+ZSH_THEME="robbyrussell"
+
+# Set list of themes to load
+# Setting this variable when ZSH_THEME=random
+# cause zsh load theme from this variable instead of
+# looking in ~/.oh-my-zsh/themes/
+# An empty array have no effect
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster"  )
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -53,20 +58,21 @@ DEFAULT_USER=`whoami`
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(
+  git
+)
+
+source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-export PATH="/Users/($whoami)/.rbenv/shims:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:~/redis-3.0.7/src"
 # export MANPATH="/usr/local/man:$MANPATH"
-
-source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
+# if [[ -n $SSH_CONNECTION  ]]; then
 #   export EDITOR='vim'
 # else
 #   export EDITOR='mvim'
@@ -76,7 +82,7 @@ source $ZSH/oh-my-zsh.sh
 # export ARCHFLAGS="-arch x86_64"
 
 # ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
+# export SSH_KEY_PATH="~/.ssh/rsa_id"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -87,84 +93,16 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-
-export NVM_DIR="/Users/($whoami)/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-export NODE_PATH="$NVM_DIR/versions/node/`nvm current`/lib/node_modules"
-
 alias glg2='git log --pretty=format:"%Cblue%h%Creset - %Cgreen(%cd)%Creset %s - %an%C(yellow)%d" --graph --date=relative'
-
-# older aliases, not as relevant for docker, but included all the same
 alias be='bundle exec'
-alias arc='bundle exec rails c development'
-alias arcs='bundle exec rails c staging'
-alias arcp='bundle exec rails c production'
-alias arcpl='bundle exec rails c production_local'
-
-# for starting up
-# alias dm='docker-machine'
-# alias dmstart='dm start default'
-# in macOS use this
-alias dmstart='dlite start'
 alias dc='docker-compose'
 
-# dc up    # docker-compose up
-# dc stop  # docker-compose stop # development enviornment
-# dc build # to build a dockers setup
+export PATH="$PATH:$HOME/.bin"
+export ANDROID_HOME="$HOME/Library/Android/sdk"
 
-# dexec opens a shell on a running image based on its name
-function dexec {
-  docker exec -it $1 /bin/bash
+function git-loot-all() {
+  source_repo="$TMPDIR/git-loot-all-source-repo"
+  git clone $1 $source_repo
+  git-loot --from-dir $source_repo `GIT_DIR="$source_repo/.git" git log --reverse --format="%h" --no-merges`
+  rm -rf $source_repo
 }
-
-# open a bash prompt on a server on startup
-function dbash {
-  docker run --rm -i -t -e TERM=xterm --entrypoint /bin/bash $1
-}
-
-alias dstopall="docker stop $(docker ps -a -q)"
-
-# this literally blows away your entire system to start over. Be careful
-# as this will delete every image and container there is.. but, you can
-# rebuild you just have to reimport the data
-function dnuke {
-  echo
-  echo "Stop all containers"
-  docker stop $(docker ps -a -q)
-
-  echo
-  echo "Delete all containers"
-  docker rm $(docker ps -a -q)
-
-  echo
-  echo "Delete all images"
-  docker rmi $(docker images -q)
-
-  # echo
-  # echo "Delete all volumes"
-  # rm -rf /var/lib/docker/volumes/*
-  # rm -rf /var/lib/docker/vfs/dir/*
-
-  echo
-  echo "Old style to pick up danglers"
-  docker ps -a | sed '1 d' | awk '{print $1}' | xargs -L1 docker rm
-  docker images -a | sed '1 d' | awk '{print $3}' | xargs -L1 docker rmi -f
-  docker volume rm $(docker volume ls -qf dangling=true)
-
-  echo
-  echo
-  echo "Finished nuking"
-}
-
-# sees if one system and ping another
-function dping {
-  docker exec $1 /bin/ping $2
-}
-
-function dcleanup(){
-    docker rm -v $(docker ps --filter status=exited -q 2>/dev/null) 2>/dev/null
-    docker rmi $(docker images --filter dangling=true -q 2>/dev/null) 2>/dev/null
-    docker volume ls -qf dangling=true | xargs docker volume rm
-}
-
