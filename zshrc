@@ -4,10 +4,21 @@
 # Path to your oh-my-zsh installation.
 export ZSH=/Users/($whoami)/.oh-my-zsh
 
+# Customize powerlevel9k: *MAKE SURE TO PUT THESE BEFORE SETTING ZSH_THEME*
+export POWERLEVEL9K_MODE="nerdfont-complete"
+export POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir rbenv vcs)
+export POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time ram background_jobs)
+export POWERLEVEL9K_SHORTEN_STRATEGY="truncate_to_last"
+export POWERLEVEL9K_HOME_SUB_ICON="\uf07c"
+export POWERLEVEL9K_FOLDER_ICON="\uf115"
+export POWERLEVEL9K_ETC_ICON="\uf013"
+export POWERLEVEL9K_HOME_FOLDER_ABBREVIATION=""
+export POWERLEVEL9K_DIR_SHOW_WRITABLE=true
+
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+ZSH_THEME="powerlevel9k/powerlevel9k"
 
 # Set list of themes to load
 # Setting this variable when ZSH_THEME=random
