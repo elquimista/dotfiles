@@ -28,13 +28,23 @@ ARGV.each do |sha|
   end
 end
 
+timezone = `git config user.timezone`.strip
+DATE_FORMAT = '%Y-%m-%d %H:%M:%S %z'
+
+def date_with_tz(date, tz)
+  `TZ="#{tz}" date -jf "#{DATE_FORMAT}" "#{date}" +"#{DATE_FORMAT}"`
+end
+
 sha_array.each do |sha|
   committer_date = `#{git_from_dir} show -s --format="%ci" #{sha}`.strip
+  committer_date = date_with_tz(committer_date, timezone)
+  author_date = `#{git_from_dir} show -s --format="%ai" #{sha}`.strip
+  author_date = date_with_tz(author_date, timezone)
   author = "#{`git config user.name`.strip} <#{`git config user.email`.strip}>"
   `#{git_from_dir} format-patch -k -1 --stdout #{sha} | \\
     git am -3 -k --ignore-whitespace && \\
     GIT_COMMITTER_DATE="#{committer_date}" \\
-    git commit --amend --no-edit --author="#{author}"`
+    git commit --amend --no-edit --author="#{author}" --date="#{author_date}"`
 
   unless $?.exitstatus == 0
     `git am --abort` 
@@ -45,7 +55,6 @@ sha_array.each do |sha|
     `#{git_from_dir} diff --name-only HEAD^`.split("\n").each do |file|
       `cp #{options[:from_dir]}/#{file} ./#{file}`
     end
-    author_date = `#{git_from_dir} show -s --format="%ai"`.strip
     message = `#{git_from_dir} show -s --format="%B"`.strip
     `#{git_from_dir} checkout #{branch}`
     `git add --all`
