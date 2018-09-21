@@ -52,7 +52,7 @@ sha_array.each do |sha|
     puts ''
     branch = `#{git_from_dir} name-rev --name-only HEAD`
     `#{git_from_dir} checkout #{sha}`
-    `#{git_from_dir} diff --name-only HEAD^`.split("\n").each do |file|
+    `#{git_from_dir} diff --name-only HEAD^ HEAD`.split("\n").each do |file|
       `cp #{options[:from_dir]}/#{file} ./#{file}`
     end
     message = `#{git_from_dir} show -s --format="%B"`.strip
