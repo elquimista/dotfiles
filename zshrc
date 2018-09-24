@@ -117,3 +117,14 @@ function git-loot-all() {
   git-loot --from-dir $source_repo `GIT_DIR="$source_repo/.git" git log --reverse --format="%h" --no-merges`
   rm -rf $source_repo
 }
+
+function gducommandcopy() {
+	date=$(git show -s --format="%ci" $1 | tr -d '\n')
+	echo "GIT_COMMITTER_DATE='$date' gc --amend --no-edit --date='$date'" | pbcopy
+}
+
+function gmsgcopy() {
+	git show -s --format="%B" $1 | pbcopy
+}
+
+alias glh='git-loot-hard --from-dir '
