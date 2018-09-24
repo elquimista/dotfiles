@@ -1,0 +1,114 @@
+#!/usr/bin/env ruby
+
+# macOS recommended as some commands used here are macOS-specific.
+# Also latest version of git is recommended (as of September 2018).
+
+require 'optparse'
+require 'tmpdir'
+
+options = {}
+option_parser = OptionParser.new do |opts|
+  opts.banner = 'Usage: git-loot-hard [options] COMMIT_SHA'
+  opts.separator ''
+  opts.on('--from-dir FROM_DIR', 'Source repository path (local)') { |v| options[:from_dir] = v }
+  opts.on('--amend', 'Amend commit (useful for merge conflict)') { |v| options[:amend] = v }
+  opts.on('--fix-conflict', 'Fix merge conflict') { |v| options[:fix_conflict] = v }
+end
+option_parser.parse!
+
+raise OptionParser::MissingArgument.new('--from-dir') unless options[:from_dir]
+raise 'You need to specify a commit SHA' if ARGV.empty?
+
+if options[:fix_conflict] && ARGV.size > 1
+  raise 'Only single commit SHA is allowed when used with --fix-conflict flag'
+end
+
+git_from_dir = "git --git-dir=#{options[:from_dir]}/.git --work-tree=#{options[:from_dir]}"
+
+sha_array = []
+ARGV.each do |sha|
+  if sha =~ /^(?<from>[0-9a-f]+)\.\.(?<to>[0-9a-f]+)$/i
+    sha_array.concat(`#{git_from_dir} rev-list #{$~[:from]}^..#{$~[:to]}`.split("\n").reverse)
+  else
+    sha_array << sha
+  end
+end
+
+timezone = `git config user.timezone`.strip
+DATE_FORMAT = '%Y-%m-%d %H:%M:%S %z'
+
+def date_with_tz(date, tz)
+  `TZ="#{tz}" date -jf "#{DATE_FORMAT}" "#{date}" +"#{DATE_FORMAT}"`
+end
+
+def get_parent_sha(git_command_prefix, sha)
+  if `#{git_command_prefix} rev-list #{sha} | wc -l`.strip.to_i == 1
+    '4b825dc642cb6eb9a060e54bf8d69288fbee4904'
+  else
+    "#{sha}^"
+  end
+end
+
+branch = `#{git_from_dir} name-rev --name-only HEAD`
+
+sha_array.each do |sha|
+  parent_sha = get_parent_sha(git_from_dir, sha)
+  files = `#{git_from_dir} diff-tree --name-status -r #{parent_sha} #{sha}`.split("\n")
+  if options[:fix_conflict]
+    files.concat(`git diff --name-status -r --diff-filter=U`.split("\n"))
+  end
+
+  `#{git_from_dir} checkout --quiet #{sha}`
+
+  files.each do |line|
+    status, path = line.split("\t")
+    next if path.nil?
+    if status == 'D'
+      `rm '#{path}'`
+    else
+      `mkdir -p '#{File.dirname(path)}' && cp -a '#{options[:from_dir]}/#{path}' '#{path}'`
+    end
+  end
+
+  committer_date = `#{git_from_dir} show -s --format="%ci" #{sha}`.strip
+  committer_date = date_with_tz(committer_date, timezone)
+  author_date = `#{git_from_dir} show -s --format="%ai" #{sha}`.strip
+  author_date = date_with_tz(author_date, timezone)
+  message = `#{git_from_dir} show -s --format="%B" #{sha}`.strip.gsub('"', '\"')
+
+  if options[:amend]
+    system <<~COMMAND
+      git add --all && \\
+        GIT_COMMITTER_DATE="#{committer_date}" \\
+        git commit --quiet --amend --date="#{author_date}" -m "#{message}"
+    COMMAND
+  else
+    system <<~COMMAND
+      git add --all && \\
+        GIT_COMMITTER_DATE="#{committer_date}" \\
+        GIT_AUTHOR_DATE="#{author_date}" \\
+        git commit --quiet -m "#{message}"
+    COMMAND
+  end
+
+  tmpfolder = "#{Dir.tmpdir}/git-loot-hard"
+  `mkdir -p #{tmpfolder}`
+  `#{git_from_dir} diff --full-index #{parent_sha} #{sha} > #{tmpfolder}/diff_a`
+  `git diff --full-index #{get_parent_sha('git', 'HEAD')} HEAD > #{tmpfolder}/diff_b`
+  gdc_mismatch_found = `diff -u #{tmpfolder}/diff_a #{tmpfolder}/diff_b | wc -l`.strip.to_i > 0
+  `rm #{tmpfolder}/diff_a #{tmpfolder}/diff_b`
+
+  if gdc_mismatch_found
+    puts <<~MESSAGE
+      Commit SHA #{sha} has been applied, but git-diff contents mismatch found. I stopped applying subsequent commits.
+      Some possible scenarios:
+        - Symlinks (might be better to copy them using Finder app)
+        - Files are checked-in but they are included in .gitignore file (try `git add --force`)
+        - Empty folders checked-in (they might have been added as git submodules)
+        - File renamed on case-sensitive file system (try `git mv`)
+    MESSAGE
+    break
+  end
+end
+
+`#{git_from_dir} checkout --quiet #{branch}`
