@@ -1,5 +1,8 @@
-#!/usr/bin/env ruby
+#!/usr/bin/ruby
 
+# frozen_string_literal: true
+
+# Ruby v2.3.0 and above is required.
 # macOS recommended as some commands used here are macOS-specific.
 # Also latest version of git is recommended (as of September 2018).
 
@@ -10,13 +13,28 @@ options = {}
 option_parser = OptionParser.new do |opts|
   opts.banner = 'Usage: git-loot-hard [options] COMMIT_SHA'
   opts.separator ''
-  opts.on('--from-dir FROM_DIR', 'Source repository path (local)') { |v| options[:from_dir] = v }
+  opts.separator 'Available options:'
+  opts.separator ''
+  opts.on('--from-dir [FROM_DIR]', 'Source repository path (local)') { |v| options[:from_dir] = v }
   opts.on('--amend', 'Amend commit (useful for merge conflict)') { |v| options[:amend] = v }
   opts.on('--fix-conflict', 'Fix merge conflict') { |v| options[:fix_conflict] = v }
+  opts.separator ''
+  opts.separator 'git-loot-hard also utilizes the following git config variables:'
+  opts.separator ''
+  gitconfigs = {
+    'glh.from-dir' => 'Uses this value if --from-dir is not specified or empty',
+    'glh.tz' => 'Used for converting timezone in both GIT_COMMITTER_DATE and GIT_AUTHOR_DATE'
+  }
+  maxlen = gitconfigs.keys.map(&:length).max + 8
+  gitconfigs.each do |k, v|
+    opts.separator "\t#{k.ljust(maxlen, ' ')}#{v}"
+  end
 end
 option_parser.parse!
 
-raise OptionParser::MissingArgument.new('--from-dir') unless options[:from_dir]
+options[:from_dir] ||= `git config glh.from-dir`.strip
+
+raise OptionParser::MissingArgument.new('--from-dir') unless options[:from_dir]&.chars&.any?
 raise 'You need to specify a commit SHA' if ARGV.empty?
 
 if options[:fix_conflict] && ARGV.size > 1
@@ -34,7 +52,7 @@ ARGV.each do |sha|
   end
 end
 
-timezone = `git config user.timezone`.strip
+timezone = `git config glh.tz`.strip
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S %z'
 
 def date_with_tz(date, tz)
