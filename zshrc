@@ -108,6 +108,8 @@ alias glg2='git log --pretty=format:"%Cblue%h%Creset - %Cgreen(%cd)%Creset %s - 
 alias be='bundle exec'
 alias dc='docker-compose'
 
+alias c='clear'
+
 export PATH="$PATH:$HOME/.bin"
 export ANDROID_HOME="$HOME/Library/Android/sdk"
 
@@ -119,12 +121,21 @@ function git-loot-all() {
 }
 
 function gducommandcopy() {
-	date=$(git show -s --format="%ci" $1 | tr -d '\n')
-	echo "GIT_COMMITTER_DATE='$date' gc --amend --no-edit --date='$date'" | pbcopy
+  date=$(git show -s --format="%ci" $1 | tr -d '\n')
+  echo "GIT_COMMITTER_DATE='$date' gc --amend --no-edit --date='$date'" | pbcopy
 }
 
 function gmsgcopy() {
-	git show -s --format="%B" $1 | pbcopy
+  git show -s --format="%B" $1 | pbcopy
 }
 
-alias glh='git-loot-hard --from-dir '
+alias glh='git-loot-hard'
+alias gll='git pull origin $(git_current_branch)'
+
+function gcmsg2() {
+  if [ "$date" = "" ]; then
+    gcmsg "$@"
+  else
+    GIT_COMMITTER_DATE="$date" GIT_AUTHOR_DATE="$date" gcmsg "$@"
+  fi
+}
