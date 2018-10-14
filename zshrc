@@ -109,6 +109,7 @@ alias be='bundle exec'
 alias dc='docker-compose'
 
 alias c='clear'
+alias l='LC_COLLATE=C ls -lah'
 
 export PATH="$PATH:$HOME/.bin"
 export ANDROID_HOME="$HOME/Library/Android/sdk"
