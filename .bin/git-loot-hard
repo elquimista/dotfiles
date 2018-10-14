@@ -3,7 +3,7 @@
 # frozen_string_literal: true
 
 # Ruby v2.3.0 and above is required.
-# macOS recommended as some commands used here are macOS-specific.
+# macOS and Ubuntu recommended as some commands used here are macOS/Ubuntu-specific.
 # Also latest version of git is recommended (as of September 2018).
 
 require 'optparse'
@@ -56,7 +56,12 @@ timezone = `git config glh.tz`.strip
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S %z'
 
 def date_with_tz(date, tz)
-  `TZ="#{tz}" date -jf "#{DATE_FORMAT}" "#{date}" +"#{DATE_FORMAT}"`
+  case `uname`
+  when 'Darwin'
+    `TZ="#{tz}" date -jf "#{DATE_FORMAT}" "#{date}" +"#{DATE_FORMAT}"`
+  else
+    `TZ="#{tz}" date -d "#{date}" +"#{DATE_FORMAT}"`
+  end
 end
 
 def get_parent_sha(git_command_prefix, sha)
