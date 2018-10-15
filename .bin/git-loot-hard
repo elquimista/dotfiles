@@ -45,7 +45,7 @@ git_from_dir = "git --git-dir=#{options[:from_dir]}/.git --work-tree=#{options[:
 
 sha_array = []
 ARGV.each do |sha|
-  if sha =~ /^(?<from>[0-9a-f]+)\.\.(?<to>[0-9a-f]+)$/i
+  if sha =~ /^(?<from>[\w\^]+)\.\.(?<to>[\w\^]+)$/i
     sha_array.concat(`#{git_from_dir} rev-list #{$~[:from]}^..#{$~[:to]}`.split("\n").reverse)
   else
     sha_array << sha
