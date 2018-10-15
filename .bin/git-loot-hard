@@ -41,6 +41,7 @@ if options[:fix_conflict] && ARGV.size > 1
   raise 'Only single commit SHA is allowed when used with --fix-conflict flag'
 end
 
+os_name = `uname`
 git_from_dir = "git --git-dir=#{options[:from_dir]}/.git --work-tree=#{options[:from_dir]}"
 
 sha_array = []
@@ -56,7 +57,7 @@ timezone = `git config glh.tz`.strip
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S %z'
 
 def date_with_tz(date, tz)
-  case `uname`
+  case osname
   when 'Darwin'
     `TZ="#{tz}" date -jf "#{DATE_FORMAT}" "#{date}" +"#{DATE_FORMAT}"`
   else
