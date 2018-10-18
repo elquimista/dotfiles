@@ -141,17 +141,17 @@ function gcmsg2() {
   fi
 }
 function gcamend2() {
-	if [ "$date" = "" ]; then
-		gc --amend "$@"
-	else
-		GIT_COMMITTER_DATE="$date" gc --amend --date="$date" "$@"
-	fi
+  if [ "$date" = "" ]; then
+    gc --amend "$@"
+  else
+    GIT_COMMITTER_DATE="$date" gc --amend --date="$date" "$@"
+  fi
 }
 function gcamend3() {
-	GIT_COMMITTER_DATE="$(git show -s --format=%ci HEAD)" gc --amend --date="$(git show -s --format=%ai HEAD)" "$@"
+  GIT_COMMITTER_DATE="$(git show -s --format=%ci HEAD)" gc --amend --date="$(git show -s --format=%ai HEAD)" "$@"
 }
 
 function selfsigned-sslcertgen() {
-	openssl req -x509 -out $1.crt -keyout $1.key -newkey rsa:2048 -nodes -sha256 \
-		-days $2 -subj "/CN=$1" -extensions EXT -config <(printf "[dn]\nCN=$1\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:$1\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
+  openssl req -x509 -out $1.crt -keyout $1.key -newkey rsa:2048 -nodes -sha256 \
+    -days $2 -subj "/CN=$1" -extensions EXT -config <(printf "[dn]\nCN=$1\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:$1\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
 }
