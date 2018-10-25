@@ -88,9 +88,9 @@ sha_array.each do |sha|
     status, path = line.split("\t")
     next if path.nil?
     if status == 'D'
-      `rm '#{path}'`
+      `rm "#{path}"`
     else
-      `mkdir -p '#{File.dirname(path)}' && cp -a '#{options[:from_dir]}/#{path}' '#{path}'`
+      `mkdir -p "#{File.dirname(path)}" && cp -a "#{options[:from_dir]}/#{path}" "#{path}"`
     end
   end
 
