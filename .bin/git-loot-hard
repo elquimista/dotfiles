@@ -63,7 +63,7 @@ end
 
 timezone = `git config glh.tz`.strip
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S %z'
-OS_NAME = `uname`
+OS_NAME = `uname`.strip
 
 def date_with_tz(date, tz)
   case OS_NAME
