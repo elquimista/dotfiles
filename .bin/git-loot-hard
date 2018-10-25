@@ -43,10 +43,19 @@ end
 
 git_from_dir = "git --git-dir=#{options[:from_dir]}/.git --work-tree=#{options[:from_dir]}"
 
+def get_parent_sha(git_command_prefix, sha)
+  if `#{git_command_prefix} rev-list #{sha} | wc -l`.strip.to_i == 1
+    '4b825dc642cb6eb9a060e54bf8d69288fbee4904'
+  else
+    "#{sha}^"
+  end
+end
+
 sha_array = []
 ARGV.each do |sha|
   if sha =~ /^(?<from>[\w\^]+)\.\.(?<to>[\w\^]+)$/i
-    sha_array.concat(`#{git_from_dir} rev-list #{$~[:from]}^..#{$~[:to]}`.split("\n").reverse)
+    parent_sha = get_parent_sha(git_from_dir, $~[:from])
+    sha_array.concat(`#{git_from_dir} rev-list #{parent_sha}..#{$~[:to]}`.split("\n").reverse)
   else
     sha_array << sha
   end
@@ -62,14 +71,6 @@ def date_with_tz(date, tz)
     `TZ="#{tz}" date -jf "#{DATE_FORMAT}" "#{date}" +"#{DATE_FORMAT}"`
   else
     `TZ="#{tz}" date -d "#{date}" +"#{DATE_FORMAT}"`
-  end
-end
-
-def get_parent_sha(git_command_prefix, sha)
-  if `#{git_command_prefix} rev-list #{sha} | wc -l`.strip.to_i == 1
-    '4b825dc642cb6eb9a060e54bf8d69288fbee4904'
-  else
-    "#{sha}^"
   end
 end
 
