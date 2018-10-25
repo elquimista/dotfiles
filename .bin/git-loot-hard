@@ -53,12 +53,12 @@ end
 
 sha_array = []
 ARGV.each do |sha|
-  if sha =~ /^(?<from>[\w\^]+)\.\.(?<to>[\w\^]+)$/i
-    parent_sha = get_parent_sha(git_from_dir, $~[:from])
-    sha_array.concat(`#{git_from_dir} rev-list #{parent_sha}..#{$~[:to]}`.split("\n").reverse)
+  parent_sha, sha_to = if sha =~ /^(?<from>[\w\^]+)\.\.(?<to>[\w\^]+)$/i
+    [get_parent_sha(git_from_dir, $~[:from]), $~[:to]]
   else
-    sha_array << sha
+    [get_parent_sha(git_from_dir, sha), sha]
   end
+  sha_array.concat(`#{git_from_dir} rev-list #{parent_sha}..#{sha_to}`.split("\n").reverse)
 end
 
 timezone = `git config glh.tz`.strip
