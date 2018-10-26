@@ -111,7 +111,7 @@ alias dc='docker-compose'
 alias c='clear'
 alias l='LC_COLLATE=C ls -lah'
 
-export PATH="$PATH:$HOME/.bin"
+export PATH="$HOME/.bin:$HOME/.cargo/bin:$PATH"
 export ANDROID_HOME="$HOME/Library/Android/sdk"
 
 function git-loot-all() {
