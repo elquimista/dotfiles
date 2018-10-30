@@ -58,7 +58,7 @@ ARGV.each do |sha|
   else
     [get_parent_sha(git_from_dir, sha), sha]
   end
-  sha_array.concat(`#{git_from_dir} rev-list #{parent_sha}..#{sha_to}`.split("\n").reverse)
+  sha_array.concat(`#{git_from_dir} rev-list --first-parent #{parent_sha}..#{sha_to}`.split("\n").reverse)
 end
 
 timezone = `git config glh.tz`.strip
