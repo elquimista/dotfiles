@@ -53,7 +53,7 @@ end
 
 sha_array = []
 ARGV.each do |sha|
-  parent_sha, sha_to = if sha =~ /^(?<from>[\w\^]+)\.\.(?<to>[\w\^]+)$/i
+  parent_sha, sha_to = if sha =~ /^(?<from>[\w\^~]+)\.\.(?<to>[\w\^~]+)$/i
     [get_parent_sha(git_from_dir, $~[:from]), $~[:to]]
   else
     [get_parent_sha(git_from_dir, sha), sha]
