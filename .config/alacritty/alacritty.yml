@@ -104,7 +104,7 @@ font:
     #style: Italic
 
   # Point size
-  size: 11.0
+  size: 12.0
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
@@ -144,12 +144,12 @@ persistent_logging: false
 # If `true`, bold text is drawn using the bright color variants.
 draw_bold_text_with_bright_colors: true
 
-# Colors (One Dark)
+# Colors (PaperColor - Light)
 colors:
   # Default colors
   primary:
-    background: '0x282c34'
-    foreground: '0xabb2bf'
+    background: '0xeeeeee'
+    foreground: '0x4d4d4c'
 
     # Bright and dim foreground colors
     #
@@ -169,25 +169,25 @@ colors:
 
   # Normal colors
   normal:
-    black:   '0x282c34'
-    red:     '0xe06c75'
-    green:   '0x98c379'
-    yellow:  '0xd19a66'
-    blue:    '0x61afef'
-    magenta: '0xc678dd'
-    cyan:    '0x56b6c2'
-    white:   '0xabb2bf'
+    black:   '0xededed'
+    red:     '0xd7005f'
+    green:   '0x718c00'
+    yellow:  '0xd75f00'
+    blue:    '0x4271ae'
+    magenta: '0x8959a8'
+    cyan:    '0x3e999f'
+    white:   '0x4d4d4c'
 
   # Bright colors
   bright:
-    black:   '0x5c6370'
-    red:     '0xe06c75'
-    green:   '0x98c379'
-    yellow:  '0xd19a66'
-    blue:    '0x61afef'
-    magenta: '0xc678dd'
-    cyan:    '0x56b6c2'
-    white:   '0xffffff'
+    black:   '0x969694'
+    red:     '0xd7005f'
+    green:   '0x718c00'
+    yellow:  '0xd75f00'
+    blue:    '0x4271ae'
+    magenta: '0x8959a8'
+    cyan:    '0x3e999f'
+    white:   '0xf5f5f5'
 
   # Dim colors
   #
