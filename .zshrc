@@ -69,9 +69,7 @@ ZSH_THEME="powerlevel9k/powerlevel9k"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(
-  git
-)
+plugins=(git docker)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -105,15 +103,29 @@ export EDITOR='vim'
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-alias glg2='git log --pretty=format:"%Cblue%h%Creset - %Cgreen(%cd)%Creset %s - %an%C(yellow)%d" --graph --date=relative'
+alias c='clear'
+# alias l='LC_COLLATE=C ls -lah'
 alias be='bundle exec'
 alias dc='docker-compose'
 
-alias c='clear'
-alias l='LC_COLLATE=C ls -lah'
-
-export PATH="$HOME/.bin:$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/.bin:$PATH"
 export ANDROID_HOME="$HOME/Library/Android/sdk"
+
+###
+# GnuPG
+###
+
+export GPG_TTY=$(tty)
+export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh
+pkill ssh-agent; pkill gpg-agent; gpg-agent --daemon
+
+###
+# Git aliases & functions
+###
+
+alias glg2='git log --pretty=format:"%Cblue%h%Creset - %Cgreen(%cd)%Creset %s - %an%C(yellow)%d" --graph --date=relative'
+alias glh='git-loot-hard'
+alias gll='git pull origin $(git_current_branch)'
 
 function git-loot-all() {
   source_repo="$TMPDIR/git-loot-all-source-repo"
@@ -131,9 +143,6 @@ function gmsgcopy() {
   git show -s --format="%B" $1 | pbcopy
 }
 
-alias glh='git-loot-hard'
-alias gll='git pull origin $(git_current_branch)'
-
 function gcmsg2() {
   if [ "$date" = "" ]; then
     gcmsg "$@"
@@ -141,6 +150,7 @@ function gcmsg2() {
     GIT_COMMITTER_DATE="$date" GIT_AUTHOR_DATE="$date" gcmsg "$@"
   fi
 }
+
 function gcamend2() {
   if [ "$date" = "" ]; then
     gc --amend "$@"
@@ -148,6 +158,7 @@ function gcamend2() {
     GIT_COMMITTER_DATE="$date" gc --amend --date="$date" "$@"
   fi
 }
+
 function gcamend3() {
   GIT_COMMITTER_DATE="$(git show -s --format=%ci HEAD)" gc --amend --date="$(git show -s --format=%ai HEAD)" "$@"
 }
