@@ -115,9 +115,11 @@ export ANDROID_HOME="$HOME/Library/Android/sdk"
 # GnuPG
 ###
 
-export GPG_TTY=$(tty)
-export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh
-pkill ssh-agent; pkill gpg-agent; gpg-agent --daemon
+function gpgssh() {
+  export GPG_TTY=$(tty)
+  export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh
+  pkill ssh-agent; pkill gpg-agent; gpg-agent --daemon
+}
 
 ###
 # Git aliases & functions
