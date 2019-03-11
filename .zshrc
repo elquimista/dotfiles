@@ -118,7 +118,9 @@ export ANDROID_HOME="$HOME/Library/Android/sdk"
 function gpgssh() {
   export GPG_TTY=$(tty)
   export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh
-  pkill ssh-agent; pkill gpg-agent; gpg-agent --daemon
+  pkill ssh-agent
+  ps aux | grep '[g]pg-agent' | awk '{print $2}' | xargs kill -9
+  gpg-agent --daemon
 }
 
 ###
