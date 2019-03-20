@@ -123,6 +123,10 @@ function gpgssh() {
   gpg-agent --daemon
 }
 
+function horen() {
+  youtube-dl -o - "$@" | mpv -vo=null --force-seekable=yes -
+}
+
 ###
 # Git aliases & functions
 ###
