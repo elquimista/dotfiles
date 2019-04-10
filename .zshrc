@@ -110,6 +110,7 @@ alias dc='docker-compose'
 
 export PATH="$HOME/.bin:$PATH"
 export ANDROID_HOME="$HOME/Library/Android/sdk"
+export FZF_DEFAULT_OPTS='--reverse'
 
 ###
 # GnuPG
