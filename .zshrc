@@ -110,7 +110,6 @@ alias dc='docker-compose'
 
 export PATH="$HOME/.bin:$PATH"
 export ANDROID_HOME="$HOME/Library/Android/sdk"
-export FZF_DEFAULT_OPTS='--reverse'
 
 ###
 # GnuPG
@@ -176,3 +175,12 @@ function selfsigned-sslcertgen() {
   openssl req -x509 -out $1.crt -keyout $1.key -newkey rsa:2048 -nodes -sha256 \
     -days $2 -subj "/CN=$1" -extensions EXT -config <(printf "[dn]\nCN=$1\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:$1\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
 }
+
+###
+# fzf
+###
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_COMMAND='fd --hidden --type file'
+export FZF_DEFAULT_OPTS='--reverse'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
