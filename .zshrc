@@ -6,7 +6,9 @@ export ZSH=/Users/($whoami)/.oh-my-zsh
 
 # Customize powerlevel9k: *MAKE SURE TO PUT THESE BEFORE SETTING ZSH_THEME*
 export POWERLEVEL9K_MODE="nerdfont-complete"
+export POWERLEVEL9K_LEFT_SEGMENT_SEPARATOR="\ue0c4 "
 export POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir rbenv vcs)
+export POWERLEVEL9K_RIGHT_SEGMENT_SEPARATOR="\ue0c5 "
 export POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time ram background_jobs)
 export POWERLEVEL9K_SHORTEN_STRATEGY="truncate_to_last"
 export POWERLEVEL9K_HOME_SUB_ICON="\uf07c"
@@ -108,6 +110,7 @@ alias c='clear'
 alias be='bundle exec'
 alias dc='docker-compose'
 
+export TERM='tmux-256color-italic'
 export PATH="$HOME/.bin:$PATH"
 export ANDROID_HOME="$HOME/Library/Android/sdk"
 
