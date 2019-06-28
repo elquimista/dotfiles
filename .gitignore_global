@@ -1,0 +1,6 @@
+# Make sure you have this file path included in `core.excludesfile` git global config.
+# `git config --global core.excludesfile ~/.gitignore_global`
+
+# Vim files
+.vimrc
+Session.vim
