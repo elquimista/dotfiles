@@ -114,6 +114,10 @@ export TERM='tmux-256color-italic'
 export PATH="$HOME/.bin:$PATH"
 export ANDROID_HOME="$HOME/Library/Android/sdk"
 
+# Highlight search result in less with bg color diff instead of italics.
+export LESS_TERMCAP_so=$'\E[30;43m'
+export LESS_TERMCAP_se=$'\E[39;49m'
+
 ###
 # GnuPG
 ###
