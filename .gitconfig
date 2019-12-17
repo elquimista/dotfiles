@@ -3,10 +3,13 @@
 [color]
   ui = true
 [user]
-  name =
-  email =
+  name = el que m'est
+  email = 14348482+elquimista@users.noreply.github.com
   signingkey = F2139F77A807D452C2BD612BF58906EC009D05AD
 [push]
   default = simple
 [commit]
   gpgsign = true
+[color "diff"]
+  new = magenta
+  old = blue dim
