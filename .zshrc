@@ -117,6 +117,7 @@ alias c='clear'
 alias be='bundle exec'
 alias dc='docker-compose'
 alias brew2='HOMEBREW_BOTTLE_DOMAIN=http://artifactory.local:8081/repository/homebrew brew'
+alias tmuxpace='tmux new-session \; source-file ~/.tmux.workspace.conf'
 
 # export TERM='tmux-256color-italic'
 export PATH="$HOME/.bin:$PATH"
