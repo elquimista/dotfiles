@@ -13,3 +13,5 @@
 [color "diff"]
   new = magenta
   old = blue dim
+[core]
+  excludesfile = ~/.gitignore_global
