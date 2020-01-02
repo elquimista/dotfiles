@@ -180,7 +180,7 @@ font:
   #use_thin_strokes: true
 
 # If `true`, bold text is drawn using the bright color variants.
-#draw_bold_text_with_bright_colors: true
+# draw_bold_text_with_bright_colors: true
 
 # Color Schemes
 schemes:
@@ -298,8 +298,8 @@ schemes:
     # Bright colors
     bright:
       black:   '0xd7af5f'
-      red:     '0x5faf5f'
-      green:   '0xaf005f'
+      red:     '0xaf005f'
+      green:   '0x5faf5f'
       yellow:  '0x5faf00'
       blue:    '0x5fafd7'
       magenta: '0xd7875f'
