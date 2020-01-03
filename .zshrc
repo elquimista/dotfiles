@@ -127,21 +127,23 @@ export ANDROID_HOME="$HOME/Library/Android/sdk"
 export LESS_TERMCAP_so=$'\E[30;43m'
 export LESS_TERMCAP_se=$'\E[39;49m'
 
-# Using GPG across multiple tmux panes/windows isn't that straightforward as
-# you might think. E.g., you create a fresh new tmux session, get into it,
-# invoke some command that uses GPG such as git repo clone over SSH connection.
-# You get a prompt (assuming you are using pinentry or a similar thing),
-# type your passphrase and it's all good so far.
-# Now you create another tmux pane, attempt another GPG-invoking activity
-# inside that new pane and guess what happens... The passphrase prompt shows
+# Using GnuPG+SSH across multiple TERM sessions (e.g., multiple iTerm2 windows,
+# tmux panes/windows) isn't that straightforward as you might think.
+# For example, you open your first terminal window, invoke some command that
+# uses GnuPG+SSH such as git repo clone over SSH connection with GPG key.
+# You get a prompt (usually PINentry), type your passphrase and it seems all
+# good so far.
+# Now you open another terminal window (or tmux pane/window), attempt another
+# GnuPG+SSH activity in it and guess what happens... The passphrase prompt shows
 # up in the other pane that you used previously. Naturally you switch to that
 # pane, try to enter passphrase.. and you get a weird behavior.
 #
-# WORKAROUND SOLUTION: In order to avoid getting embarrassed, make sure you run
-# the following function every time you switch tmux pane from one to another
-# and try to use GPG over there. Note that you don't have to run this every
-# single time right before you invoke GPG; run it once per tmux pane switching.
-function gpg-reset() {
+# WORKAROUND SOLUTION: In order to avoid this embarrassment, make sure you run
+# the following function every time you switch terminal session from one to
+# another and try to use GnuPG+SSH over there.
+# Note that you don't have to run this every single time right before you
+# invoke GnuPG+SSH; run it just once per session switch.
+function gpgssh() {
   export GPG_TTY=$(tty)
   export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh
   pkill ssh-agent
