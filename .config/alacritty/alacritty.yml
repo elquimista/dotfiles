@@ -112,18 +112,18 @@ font:
     family: FuraCode Nerd Font
 
     # The `style` can be specified to pick a specific face.
-    style: Retina
+    style: Light
 
   # Bold font face
-  #bold:
+  bold:
     # Font family
     #
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
-    #family: monospace
+    family: FuraCode Nerd Font
 
     # The `style` can be specified to pick a specific face.
-    #style: Bold
+    style: Bold
 
   # Italic font face
   #italic:
@@ -177,7 +177,7 @@ font:
   #
   # This is a global setting and will require a log out or restart to take
   # effect.
-  #use_thin_strokes: true
+  # use_thin_strokes: true
 
 # If `true`, bold text is drawn using the bright color variants.
 # draw_bold_text_with_bright_colors: true
