@@ -4,3 +4,6 @@
 # Vim files
 .vimrc
 Session.vim
+
+# macOS files
+.DS_Store
