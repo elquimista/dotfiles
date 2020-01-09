@@ -120,8 +120,8 @@ alias brew2='HOMEBREW_BOTTLE_DOMAIN=http://artifactory.local:8081/repository/hom
 alias tmuxpace='tmux new-session \; source-file ~/.tmux.workspace.conf'
 
 # rbenv
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 export PATH="$HOME/.rbenv/bin:$PATH"
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 alias rbenv2='RUBY_BUILD_MIRROR_URL=http://artifactory.local:8081/repository/ruby-build rbenv'
 
 # export TERM='tmux-256color-italic'
