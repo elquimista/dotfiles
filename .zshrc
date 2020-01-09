@@ -119,6 +119,11 @@ alias dc='docker-compose'
 alias brew2='HOMEBREW_BOTTLE_DOMAIN=http://artifactory.local:8081/repository/homebrew brew'
 alias tmuxpace='tmux new-session \; source-file ~/.tmux.workspace.conf'
 
+# rbenv
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+export PATH="$HOME/.rbenv/bin:$PATH"
+alias rbenv2='RUBY_BUILD_MIRROR_URL=http://artifactory.local:8081/repository/ruby-build rbenv'
+
 # export TERM='tmux-256color-italic'
 export PATH="$HOME/.bin:$PATH"
 export ANDROID_HOME="$HOME/Library/Android/sdk"
