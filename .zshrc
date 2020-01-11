@@ -17,6 +17,9 @@ export POWERLEVEL9K_ETC_ICON="\uf013"
 export POWERLEVEL9K_HOME_FOLDER_ABBREVIATION=""
 export POWERLEVEL9K_DIR_SHOW_WRITABLE=true
 
+# Remove extra space at the end of the right prompt in zsh.
+export ZLE_RPROMPT_INDENT=0
+
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
