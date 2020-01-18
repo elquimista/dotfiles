@@ -119,13 +119,28 @@ export EDITOR='vim'
 alias c='clear'
 alias be='bundle exec'
 alias dc='docker-compose'
-alias brew2='HOMEBREW_BOTTLE_DOMAIN=http://artifactory.local:8081/repository/homebrew brew'
 alias tmuxpace='tmux new-session \; source-file ~/.tmux.workspace.conf'
 
 # rbenv
 export PATH="$HOME/.rbenv/bin:$PATH"
+export RUBY_BUILD_MIRROR_URL="http://artifactory.local:8081/repository/ruby-build"
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-alias rbenv2='RUBY_BUILD_MIRROR_URL=http://artifactory.local:8081/repository/ruby-build rbenv'
+
+# Homebrew
+export HOMEBREW_BREW_GIT_REMOTE="http://gitlab.local:4000/Homebrew/brew.git"
+export HOMEBREW_CORE_GIT_REMOTE="http://gitlab.local:4000/Homebrew/homebrew-core.git"
+export HOMEBREW_BOTTLE_DOMAIN="http://artifactory.local:8081/repository/homebrew"
+export HOMEBREW_ARTIFACT_DOMAIN="http://artifactory.local:8081/repository/homebrew/non-bottles"
+export HOMEBREW_NO_ANALYTICS=1
+export HOMEBREW_NO_AUTO_UPDATE=1
+export HOMEBREW_NO_BOTTLE_SOURCE_FALLBACK=1
+export HOMEBREW_NO_GITHUB_API=1
+
+# fzf
+export FZF_DEFAULT_COMMAND='fd --hidden --type file'
+export FZF_DEFAULT_OPTS='--reverse'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+if which fzf > /dev/null; then [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh; fi
 
 # export TERM='tmux-256color-italic'
 export PATH="$HOME/.bin:$PATH"
@@ -194,15 +209,6 @@ function gcamend2() {
 function gcamend3() {
   GIT_COMMITTER_DATE="$(git show -s --format=%ci HEAD)" gc --amend --date="$(git show -s --format=%ai HEAD)" "$@"
 }
-
-###
-# fzf
-###
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_DEFAULT_COMMAND='fd --hidden --type file'
-export FZF_DEFAULT_OPTS='--reverse'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 ###
 # Others
