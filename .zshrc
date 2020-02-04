@@ -123,18 +123,18 @@ alias tmuxpace='tmux new-session \; source-file ~/.tmux.workspace.conf'
 
 # rbenv
 export PATH="$HOME/.rbenv/bin:$PATH"
-export RUBY_BUILD_MIRROR_URL="http://artifactory.local:8081/repository/ruby-build"
+export RUBY_BUILD_MIRROR_URL=""
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # Homebrew
-export HOMEBREW_BREW_GIT_REMOTE="http://gitlab.local:4000/Homebrew/brew.git"
-export HOMEBREW_CORE_GIT_REMOTE="http://gitlab.local:4000/Homebrew/homebrew-core.git"
-export HOMEBREW_BOTTLE_DOMAIN="http://artifactory.local:8081/repository/homebrew"
-export HOMEBREW_ARTIFACT_DOMAIN="http://artifactory.local:8081/repository/homebrew/non-bottles"
-export HOMEBREW_NO_ANALYTICS=1
-export HOMEBREW_NO_AUTO_UPDATE=1
-export HOMEBREW_NO_BOTTLE_SOURCE_FALLBACK=1
-export HOMEBREW_NO_GITHUB_API=1
+export HOMEBREW_BREW_GIT_REMOTE=""
+export HOMEBREW_CORE_GIT_REMOTE=""
+export HOMEBREW_BOTTLE_DOMAIN=""
+export HOMEBREW_ARTIFACT_DOMAIN=""
+export HOMEBREW_NO_ANALYTICS=0
+export HOMEBREW_NO_AUTO_UPDATE=0
+export HOMEBREW_NO_BOTTLE_SOURCE_FALLBACK=0
+export HOMEBREW_NO_GITHUB_API=0
 
 # fzf
 export FZF_DEFAULT_COMMAND='fd --hidden --type file'
