@@ -307,7 +307,7 @@ schemes:
       white:   '0xd0d0d0'
 
 # Colors
-colors: *papercolor_dark
+colors: *solarized_dark
 
 # Colors (Tomorrow Night Bright)
 #colors:
