@@ -9,6 +9,6 @@
 [push]
   default = simple
 [commit]
-  gpgsign = true
+  gpgsign = false
 [core]
   excludesfile = ~/.gitignore_global
