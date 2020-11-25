@@ -126,6 +126,9 @@ export PATH="$HOME/.rbenv/bin:$PATH"
 export RUBY_BUILD_MIRROR_URL=""
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
+# nodenv
+eval "$(nodenv init -)"
+
 # Homebrew
 export HOMEBREW_BREW_GIT_REMOTE=""
 export HOMEBREW_CORE_GIT_REMOTE=""
