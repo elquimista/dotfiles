@@ -121,6 +121,11 @@ alias be='bundle exec'
 alias dc='docker-compose'
 alias tmuxpace='tmux new-session \; source-file ~/.tmux.workspace.conf'
 
+# piknik aliases
+alias pkcopy='pbpaste | piknik -copy'
+function pkpaste() { ruby -e '`printf -- "#{`piknik -paste`.gsub(/\r\n(\x04\r\n)?\Z/, "")}" | pbcopy`' }
+alias pkclear='piknik -copy < /dev/null'
+
 # rbenv
 export PATH="$HOME/.rbenv/bin:$PATH"
 export RUBY_BUILD_MIRROR_URL=""
