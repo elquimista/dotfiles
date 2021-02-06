@@ -154,14 +154,14 @@ font:
   # spacing.
   offset:
   #  x: 0
-   y: 9
+    y: 9
 
   # Glyph offset determines the locations of the glyphs within their cells with
   # the default being at the bottom. Increasing `x` moves the glyph to the
   # right, increasing `y` moves the glyph upward.
   glyph_offset:
   #  x: 0
-   y: 5
+    y: 5
 
   # Thin stroke font rendering (macOS only)
   #
@@ -357,7 +357,7 @@ schemes:
       white:   '0xebdbb2'
 
 # Colors
-colors: *gruvbox_dark
+colors: *papercolor_light
 
 # Colors (Tomorrow Night)
 #colors:
