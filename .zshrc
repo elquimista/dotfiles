@@ -1,10 +1,10 @@
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/.bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=$HOME/.oh-my-zsh
+export ZSH="$HOME/.oh-my-zsh"
 
-# Customize powerlevel9k: *MAKE SURE TO PUT THESE BEFORE SETTING ZSH_THEME*
+# Customize powerlevel10k: *MAKE SURE TO PUT THESE BEFORE SETTING ZSH_THEME*
 export POWERLEVEL9K_MODE="nerdfont-complete"
 export POWERLEVEL9K_LEFT_SEGMENT_SEPARATOR=""
 export POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir rbenv vcs)
@@ -29,7 +29,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
+# a theme from this variable instead of looking in $ZSH/themes/
 # If set to an empty array, this variable will have no effect.
 # ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
@@ -50,7 +50,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # export UPDATE_ZSH_DAYS=13
 
 # Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS=true
+# DISABLE_MAGIC_FUNCTIONS="true"
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
@@ -62,6 +62,8 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
+# Caution: this setting can cause issues with multiline prompts (zsh 5.7.1 and newer seem to work)
+# See https://github.com/ohmyzsh/ohmyzsh/issues/5765
 # COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
@@ -81,11 +83,11 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
 # Which plugins would you like to load?
-# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git docker)
+plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -121,42 +123,25 @@ alias be='bundle exec'
 alias dc='docker-compose'
 alias tmuxpace='tmux new-session \; source-file ~/.tmux.workspace.conf'
 
-# piknik aliases
-alias pkcopy='pbpaste | piknik -copy'
-function pkpaste() { ruby -e '`printf -- "#{`piknik -paste`.gsub(/\r\n(\x04\r\n)?\Z/, "")}" | pbcopy`' }
-alias pkclear='piknik -copy < /dev/null'
+autoload -U compinit; compinit
 
-# rbenv
-export PATH="$HOME/.rbenv/bin:$PATH"
-export RUBY_BUILD_MIRROR_URL=""
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+# LESS: Make sure matches are highlighted with bgcolor, not with italics.
+export LESS_TERMCAP_so=$'\E[30;43m'
+export LESS_TERMCAP_se=$'\E[39;49m'
 
-# nodenv
-eval "$(nodenv init -)"
-
-# Homebrew
-export HOMEBREW_BREW_GIT_REMOTE=""
-export HOMEBREW_CORE_GIT_REMOTE=""
-export HOMEBREW_BOTTLE_DOMAIN=""
-export HOMEBREW_ARTIFACT_DOMAIN=""
-export HOMEBREW_NO_ANALYTICS=0
-export HOMEBREW_NO_AUTO_UPDATE=0
-export HOMEBREW_NO_BOTTLE_SOURCE_FALLBACK=0
-export HOMEBREW_NO_GITHUB_API=0
-
-# fzf
+# fzf, fd
 export FZF_DEFAULT_COMMAND='fd --hidden --type file'
 export FZF_DEFAULT_OPTS='--reverse'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 if which fzf > /dev/null; then [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh; fi
 
-# export TERM='tmux-256color-italic'
-export PATH="$HOME/.bin:$PATH"
-export ANDROID_HOME="$HOME/Library/Android/sdk"
+# rbenv
+# export PATH="$HOME/.rbenv/bin:$PATH"
+# export RUBY_BUILD_MIRROR_URL=""
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
-# LESS: Make sure matches are highlighted with bgcolor, not with italics.
-export LESS_TERMCAP_so=$'\E[30;43m'
-export LESS_TERMCAP_se=$'\E[39;49m'
+# nodenv
+eval "$(nodenv init -)"
 
 # Using GnuPG+SSH across multiple TERM sessions (e.g., multiple iTerm2 windows,
 # tmux panes/windows) isn't that straightforward as you might think.
