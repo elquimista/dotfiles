@@ -24,7 +24,6 @@ export ZLE_RPROMPT_INDENT=0
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-# ZSH_THEME="robbyrussell"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set list of themes to pick from when loading at random
@@ -40,14 +39,13 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Case-sensitive completion must be off. _ and - will be interchangeable.
 # HYPHEN_INSENSITIVE="true"
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
+# Uncomment one of the following lines to change the auto-update behavior
+# zstyle ':omz:update' mode disabled  # disable automatic updates
+# zstyle ':omz:update' mode auto      # update automatically without asking
+# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 
 # Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
+# zstyle ':omz:update' frequency 13
 
 # Uncomment the following line if pasting URLs and other text is messed up.
 # DISABLE_MAGIC_FUNCTIONS="true"
@@ -62,8 +60,9 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-# Caution: this setting can cause issues with multiline prompts (zsh 5.7.1 and newer seem to work)
-# See https://github.com/ohmyzsh/ohmyzsh/issues/5765
+# You can also set it to another string to have that shown instead of the default red dots.
+# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
+# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
 # COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
@@ -82,12 +81,21 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
+# Homebrew 3+
+if which /opt/homebrew/bin/brew > /dev/null; then eval "$(/opt/homebrew/bin/brew shellenv)"; fi
+
+# fzf, fd
+export FZF_BASE="$HOMEBREW_PREFIX/opt/fzf"
+export FZF_DEFAULT_COMMAND='fd --hidden --type file'
+export FZF_DEFAULT_OPTS='--reverse'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git docker docker-compose pass fzf)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -129,19 +137,13 @@ autoload -U compinit; compinit
 export LESS_TERMCAP_so=$'\E[30;43m'
 export LESS_TERMCAP_se=$'\E[39;49m'
 
-# fzf, fd
-export FZF_DEFAULT_COMMAND='fd --hidden --type file'
-export FZF_DEFAULT_OPTS='--reverse'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-if which fzf > /dev/null; then [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh; fi
-
 # rbenv
 # export PATH="$HOME/.rbenv/bin:$PATH"
 # export RUBY_BUILD_MIRROR_URL=""
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # nodenv
-eval "$(nodenv init -)"
+if which nodenv > /dev/null; then eval "$(nodenv init -)"; fi
 
 # Using GnuPG+SSH across multiple TERM sessions (e.g., multiple iTerm2 windows,
 # tmux panes/windows) isn't that straightforward as you might think.
