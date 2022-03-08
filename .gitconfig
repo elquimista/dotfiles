@@ -5,7 +5,7 @@
 [user]
   name = el que m'est
   email = elquemista@gmail.com
-  signingkey = F2139F77A807D452C2BD612BF58906EC009D05AD
+  signingkey = 6704E8BDDF3EF19FCA74A4AC1C508DD224A52384
 [push]
   default = simple
 [commit]
