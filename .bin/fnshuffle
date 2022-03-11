@@ -1,0 +1,7 @@
+#!/bin/bash
+
+for i in *.mp3
+do
+  name=$(printf "%04d" $((RANDOM % 10000)))
+  mv "$i" "${name} $i"
+done
