@@ -79,7 +79,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
 # Homebrew 3+
-if which /opt/homebrew/bin/brew > /dev/null; then eval "$(/opt/homebrew/bin/brew shellenv)"; fi
+if which brew > /dev/null; then eval "$(brew shellenv)"; fi
 
 # fzf, fd
 export FZF_BASE="$HOMEBREW_PREFIX/opt/fzf"
