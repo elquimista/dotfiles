@@ -1,0 +1,3 @@
+#!/bin/bash
+
+echo "RESERVED FOR \`caffeinate\`" | boxes -d dog -a c -s 40x15
