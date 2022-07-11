@@ -87,6 +87,7 @@ export FZF_BASE="$HOMEBREW_PREFIX/opt/fzf"
 export FZF_DEFAULT_COMMAND='fd --hidden --type file'
 export FZF_DEFAULT_OPTS='--reverse'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
@@ -136,11 +137,12 @@ export LESS_TERMCAP_so=$'\E[30;43m'
 export LESS_TERMCAP_se=$'\E[39;49m'
 
 # rbenv
-# export PATH="$HOME/.rbenv/bin:$PATH"
+export PATH="$HOME/.rbenv/bin:$PATH"
 # export RUBY_BUILD_MIRROR_URL=""
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # nodenv
+export PATH="$HOME/.nodenv/bin:$PATH"
 if which nodenv > /dev/null; then eval "$(nodenv init -)"; fi
 
 # Using GnuPG+SSH across multiple TERM sessions (e.g., multiple iTerm2 windows,
