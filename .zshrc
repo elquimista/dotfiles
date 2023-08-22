@@ -222,4 +222,9 @@ function selfsigned-sslcertgen() {
     -days $2 -subj "/CN=$1" -extensions EXT -config <(printf "[dn]\nCN=$1\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:$1\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
 }
 
-export PATH=$HOME/.bin:$PATH
+export PATH=$HOME/.bin:$HOME/.local/bin:$PATH
+
+if which powershell.exe > /dev/null; then
+  alias pbpaste="powershell.exe /c Get-Clipboard"
+  alias pbcopy="clip.exe"
+fi
