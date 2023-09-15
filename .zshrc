@@ -82,11 +82,14 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
 # Homebrew 3+
+# NOTE: Prefer MacPorts over Homebrew unless package is not available (or
+# specific version is not available) on MacPorts. Both MacPorts and Homebrew
+# can coexist.
 export PATH=/opt/homebrew/bin:$PATH
 if which brew > /dev/null; then eval "$(brew shellenv)"; fi
 
 # fzf, fd
-export FZF_BASE="$HOMEBREW_PREFIX/opt/fzf"
+export FZF_BASE="/opt/local/share/fzf"
 export FZF_DEFAULT_COMMAND='fd --hidden --type file'
 export FZF_DEFAULT_OPTS='--reverse'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -140,14 +143,19 @@ autoload -U compinit; compinit
 export LESS_TERMCAP_so=$'\E[30;43m'
 export LESS_TERMCAP_se=$'\E[39;49m'
 
-# rbenv
-export PATH="$HOME/.rbenv/bin:$PATH"
-# export RUBY_BUILD_MIRROR_URL=""
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+# asdf
+if which port > /dev/null; then
+  if port installed | grep asdf > /dev/null; then
+    . /opt/local/share/asdf/asdf.sh;
+    export RUBY_CONFIGURE_OPTS="--with-libyaml-dir=/opt/local"
+  fi
+fi
 
-# nodenv
-export PATH="$HOME/.nodenv/bin:$PATH"
-if which nodenv > /dev/null; then eval "$(nodenv init -)"; fi
+# WSL2 Clipboard Sharing
+if which powershell.exe > /dev/null; then
+  alias pbpaste="powershell.exe /c Get-Clipboard"
+  alias pbcopy="clip.exe"
+fi
 
 # Using GnuPG+SSH across multiple TERM sessions (e.g., multiple iTerm2 windows,
 # tmux panes/windows) isn't that straightforward as you might think.
@@ -224,7 +232,4 @@ function selfsigned-sslcertgen() {
 
 export PATH=$HOME/.bin:$HOME/.local/bin:$PATH
 
-if which powershell.exe > /dev/null; then
-  alias pbpaste="powershell.exe /c Get-Clipboard"
-  alias pbcopy="clip.exe"
-fi
+alias trim_photoshop_metadata='exiftool -photoshop:all= -creatortool= -software= -xmptoolkit= -documentid= -instanceid= -originaldocumentid= -historyaction= -historyinstanceid= -historywhen= -historysoftwareagent= -historychanged= -historyparameters= -derivedfromdocumentid= -derivedfrominstanceid= -exiftoolversionnumber= -documentancestors= -derivedfromoriginaldocumentid='
