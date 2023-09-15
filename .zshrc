@@ -88,6 +88,10 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 export PATH=/opt/homebrew/bin:$PATH
 if which brew > /dev/null; then eval "$(brew shellenv)"; fi
 
+# MacPorts Installer addition: adding an appropriate PATH variable for use with MacPorts.
+export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+# Finished adapting your PATH environment variable for use with MacPorts.
+
 # fzf, fd
 export FZF_BASE="/opt/local/share/fzf"
 export FZF_DEFAULT_COMMAND='fd --hidden --type file'
