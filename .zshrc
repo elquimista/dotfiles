@@ -82,18 +82,11 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
 # Homebrew 3+
-# NOTE: Prefer MacPorts over Homebrew unless package is not available (or
-# specific version is not available) on MacPorts. Both MacPorts and Homebrew
-# can coexist.
 export PATH=/opt/homebrew/bin:$PATH
 if which brew > /dev/null; then eval "$(brew shellenv)"; fi
 
-# MacPorts Installer addition: adding an appropriate PATH variable for use with MacPorts.
-export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
-# Finished adapting your PATH environment variable for use with MacPorts.
-
 # fzf, fd
-export FZF_BASE="/opt/local/share/fzf"
+export FZF_BASE="$HOMEBREW_PREFIX/opt/fzf"
 export FZF_DEFAULT_COMMAND='fd --hidden --type file'
 export FZF_DEFAULT_OPTS='--reverse'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -148,11 +141,8 @@ export LESS_TERMCAP_so=$'\E[30;43m'
 export LESS_TERMCAP_se=$'\E[39;49m'
 
 # asdf
-if which port > /dev/null; then
-  if port installed | grep asdf > /dev/null; then
-    . /opt/local/share/asdf/asdf.sh;
-    export RUBY_CONFIGURE_OPTS="--with-libyaml-dir=/opt/local"
-  fi
+if which asdf > /dev/null; then
+  . $HOMEBREW_PREFIX/opt/asdf/libexec/asdf.sh
 fi
 
 # WSL2 Clipboard Sharing
