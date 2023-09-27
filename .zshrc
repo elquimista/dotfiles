@@ -227,3 +227,5 @@ function selfsigned-sslcertgen() {
 export PATH=$HOME/.bin:$HOME/.local/bin:$PATH
 
 alias trim_photoshop_metadata='exiftool -photoshop:all= -creatortool= -software= -xmptoolkit= -documentid= -instanceid= -originaldocumentid= -historyaction= -historyinstanceid= -historywhen= -historysoftwareagent= -historychanged= -historyparameters= -derivedfromdocumentid= -derivedfrominstanceid= -exiftoolversionnumber= -documentancestors= -derivedfromoriginaldocumentid='
+
+alias qrdecode='zbarimg -q --raw <(pngpaste -)'
