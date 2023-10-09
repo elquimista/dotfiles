@@ -216,6 +216,10 @@ function gcamend3() {
 ###
 
 function hoeren() {
+  mpv -vo=null --force-seekable=yes "$@"
+}
+
+function hoerenyt() {
   youtube-dl -o - "$@" | mpv -vo=null --force-seekable=yes -
 }
 
