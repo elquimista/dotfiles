@@ -142,7 +142,8 @@ export LESS_TERMCAP_se=$'\E[39;49m'
 
 # asdf
 if which asdf > /dev/null; then
-  . $HOMEBREW_PREFIX/opt/asdf/libexec/asdf.sh
+  . $HOMEBREW_PREFIX/opt/asdf/libexec/asdf.sh 2>/dev/null # Homebrew path
+  . /opt/local/share/asdf/asdf.sh 2>/dev/null # MacPorts path
 fi
 
 # WSL2 Clipboard Sharing
