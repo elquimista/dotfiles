@@ -156,8 +156,8 @@ foreground = "0xebdbb2"
 # background = "0xfdf6e3"
 # foreground = "0x657b83"
 
-# [font]
-# size = 12.0
+[font]
+size = 12.0
 
 [font.bold]
 family = "FiraCode Nerd Font"
