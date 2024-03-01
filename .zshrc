@@ -238,36 +238,4 @@ alias trim_photoshop_metadata='exiftool -photoshop:all= -creatortool= -software=
 
 alias qrdecode='zbarimg -q --raw <(pngpaste -)'
 
-function bal() {
-  ledger -f ${LEDGER_FILE} bal ^assets ^liabilities --limit "not (account =~ /$(ledger accounts --limit 'has_meta(/^NOAVAIL$/)' | paste -sd '|' -)/)" "$@"
-}
-
-function bdgt() {
-  ledger -f ${LEDGER_FILE} reg --budget ^expenses "$@"
-}
-
-function domains() {
-  local flag_help
-  local flag_all
-  local usage=(
-    "domains [options]\n"
-    "\033[1mOPTIONS\033[0m"
-    "\t\033[1m-h, --help\033[0m"
-    "\t\tShow this help page."
-    "\t\033[1m-a, --all\033[0m"
-    "\t\tShow all domains including expired ones."
-  )
-
-  zparseopts -D -F -K -- \
-    {h,-help}=flag_help \
-    {a,-all}=flag_all ||
-    return 1
-
-  [[ -z "$flag_help" ]] || { print -l $usage && return }
-
-  if (( $#flag_all )); then
-    ledger -f ${DOMAINS_LEDGER_FILE} reg not ^equ $@ && return
-  fi
-
-  ledger -f ${DOMAINS_LEDGER_FILE} reg not ^equ -b today $@
-}
+[[ -f $HOME/.ledger-functions.zsh ]] && . $HOME/.ledger-functions.zsh
