@@ -96,13 +96,16 @@ function reg() {
 # Usage examples:
 #
 #   budget -p [project_names]
-#     Forecast income from projects.
+#     Forecast income from projects. (balance)
 #
 #   budget -p proj_a proj_b
 #     Forecast income from specific project names.
 #
 #   budget -p -- -b 1/31 -e 3/3
 #     Forecast project incomes for a specific time frame.
+#
+#   budget -P [project_names]
+#     Same as `-p` option but uses `register` command under the hood.
 #
 #   budget -e [account_names]
 #     Show upcoming expense items. If account_names are not specified, all
@@ -122,18 +125,20 @@ function reg() {
 ###
 function budget() {
   local cmd='ledger -f ${BUDGET_LEDGER_FILE}'
+  local flag_projects_total
   local flag_projects
   local flag_expenses
   local flag_all
 
   zparseopts -D -F -K -E -- \
-    {p,-projects}=flag_projects \
+    {p,-projects-total}=flag_projects_total \
+    {P,-projects}=flag_projects \
     {e,-expenses}=flag_expenses \
     {a,-all}=flag_all ||
     return 1
 
   # forecast income from projects
-  if (( $#flag_projects )); then
+  if (( $#flag_projects_total || $#flag_projects )); then
     local options=(
       '--effective'
       '--exchange $ --basis'
@@ -154,7 +159,10 @@ function budget() {
         "^liabilities"
       )
     fi
-    eval ${cmd} bal $accounts $options $@ && return
+    local ledger_command
+    [[ -z "$flag_projects_total" ]] || { ledger_command='bal' }
+    [[ -z "$flag_projects" ]] || { ledger_command='reg' }
+    eval ${cmd} $ledger_command $accounts $options $@ && return
   fi
 
   # list expense items
