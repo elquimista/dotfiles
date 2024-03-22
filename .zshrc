@@ -82,7 +82,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
 # Homebrew 3+
-export PATH=/opt/homebrew/bin:$PATH
+export PATH=/opt/homebrew/bin:/usr/local/Homebrew/bin:$PATH
 if which brew > /dev/null; then eval "$(brew shellenv)"; fi
 
 # fzf, fd
