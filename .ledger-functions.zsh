@@ -18,6 +18,9 @@
 #
 #   bal -- <ledger-cli options>
 #     Pass additional ledger-cli options to the underlying ledger command.
+#
+#   watchexec -nc -- zsh -c 'source ~/.zshrc && bal'
+#     Combine with watchexec to reload balance report on file change:
 ###
 function bal() {
   local cmd='ledger -f ${LEDGER_FILE}'
@@ -33,6 +36,7 @@ function bal() {
     "--balance-format '$balance_format'"
     "--prepend_width 13"
     "--pedantic"
+    "--no-pager"
   )
   if [[ -z "$flag_all" ]]; then
     local unavailable_accounts="$cmd accounts --limit 'has_meta(/^NOAVAIL$/)'"
@@ -142,6 +146,7 @@ function budget() {
     local options=(
       '--effective'
       '--exchange $ --basis'
+      "--no-pager"
     )
     local accounts=()
     while [[ -n "$@" ]]
@@ -176,6 +181,7 @@ function budget() {
       "--exchange $ --basis"
       "--payee-width 50"
       "-S date"
+      "--no-pager"
     )
     [[ -n "$flag_all" ]] || { options+='-b today' }
 
@@ -223,6 +229,7 @@ function domains() {
 
   local options=(
     "--register-format '$register_format'"
+    "--no-pager"
   )
   [[ -n "$flag_all" ]] || { options+='-b today' }
 
