@@ -34,7 +34,7 @@ function bal() {
 
   local options=(
     "--balance-format '$balance_format'"
-    "--prepend_width 13"
+    "--prepend_width 5"
     "--pedantic"
     "--no-pager"
   )
@@ -179,7 +179,7 @@ function budget() {
       "--effective"
       # "--related"
       "--exchange $ --basis"
-      "--payee-width 50"
+      "--payee-width 40"
       "-S date"
       "--no-pager"
     )
@@ -230,6 +230,7 @@ function domains() {
   local options=(
     "--register-format '$register_format'"
     "--no-pager"
+    "--payee-width 20"
   )
   [[ -n "$flag_all" ]] || { options+='-b today' }
 
