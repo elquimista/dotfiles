@@ -229,6 +229,7 @@ function domains() {
 
   local options=(
     "--register-format '$register_format'"
+    "-S date"
     "--no-pager"
     "--payee-width 20"
   )
