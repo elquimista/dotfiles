@@ -239,3 +239,7 @@ alias trim_photoshop_metadata='exiftool -photoshop:all= -creatortool= -software=
 alias qrdecode='zbarimg -q --raw <(pngpaste -)'
 
 [[ -f $HOME/.ledger-functions.zsh ]] && . $HOME/.ledger-functions.zsh
+
+# Disable OMZ auto update since it (or the prompt itself) disrupts some commands
+# that are executed automatically by `watchexec` or something like that.
+export DISABLE_AUTO_UPDATE=true
