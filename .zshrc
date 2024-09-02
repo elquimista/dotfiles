@@ -81,6 +81,15 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
+# Disable gitstatusd in OS X 10.9.x and earlier.
+if [ "$(uname)" = "Darwin" ]; then
+  if (( $(cut -d'.' -f1 <<<$(sw_vers -productVersion)) <= 10 )); then
+    if (( $(cut -d'.' -f2 <<<$(sw_vers -productVersion)) < 10 )); then
+      export POWERLEVEL9K_DISABLE_GITSTATUS=true
+    fi
+  fi
+fi
+
 # Homebrew 3+
 export PATH=/opt/homebrew/bin:/usr/local/Homebrew/bin:$PATH
 if which brew > /dev/null; then eval "$(brew shellenv)"; fi
