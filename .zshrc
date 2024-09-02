@@ -85,8 +85,15 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 export PATH=/opt/homebrew/bin:/usr/local/Homebrew/bin:$PATH
 if which brew > /dev/null; then eval "$(brew shellenv)"; fi
 
+# MacPorts
+export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+
 # fzf, fd
-export FZF_BASE="$HOMEBREW_PREFIX/opt/fzf"
+if which fzf | grep 'homebrew' > /dev/null; then
+  export FZF_BASE="$HOMEBREW_PREFIX/opt/fzf"
+else
+  export FZF_BASE="/opt/local/share/fzf"
+fi
 export FZF_DEFAULT_COMMAND='fd --hidden --type file'
 export FZF_DEFAULT_OPTS='--reverse'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
