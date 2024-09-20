@@ -166,7 +166,7 @@ if which brew > /dev/null; then
     . $HOMEBREW_PREFIX/opt/asdf/libexec/asdf.sh
 fi
 if which port > /dev/null; then
-  port list asdf > /dev/null && . /opt/local/share/asdf/asdf.sh
+  port installed | grep asdf > /dev/null && . /opt/local/share/asdf/asdf.sh
 fi
 
 # WSL2 Clipboard Sharing
