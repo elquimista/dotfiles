@@ -164,7 +164,7 @@ family = "FiraCode Nerd Font"
 style = "Bold"
 
 [font.glyph_offset]
-y = 5
+y = 4
 
 [font.normal]
 family = "FiraCode Nerd Font"
