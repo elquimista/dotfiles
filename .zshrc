@@ -115,6 +115,10 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git docker docker-compose pass fzf)
 
+# Disable OMZ auto update since it (or the prompt itself) disrupts some commands
+# that are executed automatically by `watchexec` or something like that.
+export DISABLE_AUTO_UPDATE=true
+
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -255,7 +259,3 @@ alias trim_photoshop_metadata='exiftool -photoshop:all= -creatortool= -software=
 alias qrdecode='zbarimg -q --raw <(pngpaste -)'
 
 [[ -f $HOME/.ledger-functions.zsh ]] && . $HOME/.ledger-functions.zsh
-
-# Disable OMZ auto update since it (or the prompt itself) disrupts some commands
-# that are executed automatically by `watchexec` or something like that.
-export DISABLE_AUTO_UPDATE=true
