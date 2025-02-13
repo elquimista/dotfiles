@@ -16,6 +16,12 @@
 #   bal paypal payoneer
 #     Show balances of all available PayPal and Payoneer accounts.
 #
+#   bal "not crypto"
+#     Show balances of all available non-crypto accounts.
+#
+#   bal crypto
+#     Show balances of all available crypto accounts.
+#
 #   bal -- <ledger-cli options>
 #     Pass additional ledger-cli options to the underlying ledger command.
 #
@@ -30,7 +36,7 @@ function bal() {
     {a,-all}=flag_all ||
     return 1
 
-  local balance_format='%(ansify_if(ansify_if( justify(scrub(display_total), 20 + int(prepend_width), 20 + int(prepend_width), true, color), bold if should_bold), yellow if color and account =~ /^Assets:\\*Receivable/)) %(!options.flat ? depth_spacer : "") %-(ansify_if( ansify_if(partial_account(options.flat), blue if color), bold if should_bold))\n%/%$1\n%/%("-" * (20 + int(prepend_width)))\n'
+  local balance_format='%(ansify_if(ansify_if( justify(scrub(display_total), 20 + int(prepend_width), 20 + int(prepend_width), true, color), bold if should_bold), yellow if color and account =~ /\\*Receivable/)) %(!options.flat ? depth_spacer : "") %-(ansify_if( ansify_if(partial_account(options.flat), blue if color), bold if should_bold))\n%/%$1\n%/%("-" * (20 + int(prepend_width)))\n'
 
   local options=(
     "--balance-format '$balance_format'"
