@@ -256,6 +256,6 @@ export PATH=$HOME/.bin:$HOME/.local/bin:$PATH
 
 alias trim_photoshop_metadata='exiftool -photoshop:all= -creatortool= -software= -xmptoolkit= -documentid= -instanceid= -originaldocumentid= -historyaction= -historyinstanceid= -historywhen= -historysoftwareagent= -historychanged= -historyparameters= -derivedfromdocumentid= -derivedfrominstanceid= -documentancestors= -derivedfromoriginaldocumentid= -datetimeoriginal= -createdate= -datecreated='
 
-alias qrdecode='zbarimg -q --raw <(pngpaste -)'
+alias qrdecode='zbarimg -q --raw <(pngpaste -) | tr -d "\n"'
 
 [[ -f $HOME/.ledger-functions.zsh ]] && . $HOME/.ledger-functions.zsh
