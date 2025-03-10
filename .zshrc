@@ -259,3 +259,5 @@ alias trim_photoshop_metadata='exiftool -photoshop:all= -creatortool= -software=
 alias qrdecode='zbarimg -q --raw <(pngpaste -) | tr -d "\n"'
 
 [[ -f $HOME/.ledger-functions.zsh ]] && . $HOME/.ledger-functions.zsh
+
+export PASSWORD_STORE_ENABLE_EXTENSIONS="true"
