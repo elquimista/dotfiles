@@ -255,6 +255,7 @@ function selfsigned-sslcertgen() {
 export PATH=$HOME/.bin:$HOME/.local/bin:$PATH
 
 alias trim_photoshop_metadata='exiftool -photoshop:all= -creatortool= -software= -xmptoolkit= -documentid= -instanceid= -originaldocumentid= -historyaction= -historyinstanceid= -historywhen= -historysoftwareagent= -historychanged= -historyparameters= -derivedfromdocumentid= -derivedfrominstanceid= -documentancestors= -derivedfromoriginaldocumentid= -datetimeoriginal= -createdate= -datecreated='
+alias clean_exif_metadata='exiftool -overwrite_original -XMP:All= -Photoshop:All= -IPTC:All= -Software= -History= -CreatorTool= -Make="Apple" -Model="iPhone 14 Pro" -Software="14.0" -ExifVersion="0232" -Orientation="Horizontal (normal)"'
 
 alias qrdecode='zbarimg -q --raw <(pngpaste -) | tr -d "\n"'
 
