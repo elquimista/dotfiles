@@ -174,6 +174,10 @@ if which powershell.exe > /dev/null; then
   alias pbpaste="powershell.exe /c Get-Clipboard"
   alias pbcopy="clip.exe"
 fi
+if [ "$(uname)" = "Linux" ]; then
+  alias pbpaste="xclip -selection clipboard -o"
+  alias pbcopy="xclip -selection clipboard"
+fi
 
 # Using GnuPG+SSH across multiple TERM sessions (e.g., multiple iTerm2 windows,
 # tmux panes/windows) isn't that straightforward as you might think.
