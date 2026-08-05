@@ -269,3 +269,7 @@ export GPG_TTY=$(tty)
 
 export PASSWORD_STORE_ENABLE_EXTENSIONS="true"
 export PASSWORD_STORE_GENERATED_LENGTH=32
+
+if which mise > /dev/null; then
+  eval "$(mise activate zsh)"
+fi
