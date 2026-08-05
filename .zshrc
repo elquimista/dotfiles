@@ -265,4 +265,7 @@ alias qrdecode='zbarimg -q --raw <(pngpaste -) | tr -d "\n"'
 
 [[ -f $HOME/.ledger-functions.zsh ]] && . $HOME/.ledger-functions.zsh
 
+export GPG_TTY=$(tty)
+
 export PASSWORD_STORE_ENABLE_EXTENSIONS="true"
+export PASSWORD_STORE_GENERATED_LENGTH=32
